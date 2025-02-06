@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homepage/homepage.dart'; // Import the homepage
+import 'screens/homepage.dart'; // Import the homepage
 
 void main() {
   runApp(DonationApp());
