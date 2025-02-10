@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import '../widgets/donation_form.dart';
 
 class HomePage extends StatefulWidget {
+  final List<String> selectedCauses;
+
+  HomePage({required this.selectedCauses});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String searchQuery = '';
+  List<String> filteredOrganizations = [];
 
-  final List<Widget> _pages = [
-    HomeScreen(),
-    OrganizationsScreen(), // Now using "Organizations"
-    ProfileScreen(),
+  final List<String> organizations = [
+    'Red Cross Philippines',
+    'Pawssion Project',
+    'Unicef Philippines',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    filteredOrganizations = organizations;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -21,10 +33,19 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void updateSearchQuery(String query) {
+    setState(() {
+      searchQuery = query;
+      filteredOrganizations = organizations
+          .where((org) => org.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: _selectedIndex == 0 ? HomeScreen() : _buildSearchScreen(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -33,9 +54,76 @@ class _HomePageState extends State<HomePage> {
         showUnselectedLabels: true, // Ensures labels show for all tabs
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Organizations'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSearchScreen() {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Search Organizations'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              onChanged: updateSearchQuery,
+              decoration: InputDecoration(
+                labelText: 'Search',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+            SizedBox(height: 10),
+            Wrap(
+              spacing: 8.0,
+              children: widget.selectedCauses
+                  .map((cause) => FilterChip(
+                        label: Text(cause),
+                        onSelected: (bool selected) {
+                          // Handle filter selection
+                        },
+                      ))
+                  .toList(),
+            ),
+            SizedBox(height: 10),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 4, // Adjust the aspect ratio for rectangular shape
+                ),
+                itemCount: filteredOrganizations.length,
+                itemBuilder: (context, index) {
+                  final organization = filteredOrganizations[index];
+                  return GestureDetector(
+                    onTap: () {
+                      // TODO: Implement donation functionality
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      child: Center(
+                        child: Text(
+                          organization,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -59,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Donation App')),
+      appBar: AppBar(title: Text('Home Page')),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -107,41 +195,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// 🏢 Organizations You Are Donating To
-class OrganizationsScreen extends StatelessWidget {
-  final List<String> organizations = [
-    'Greenwood Orphanage',
-    'Hope Community School',
-    'Elderly Care Center',
-    'Food Bank Foundation',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Organizations')),
-      body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemCount: organizations.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              leading: Icon(Icons.business, color: Colors.blue),
-              title: Text(organizations[index]),
-              trailing: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implement donation functionality
-                },
-                child: Text('Donate'),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
 // 👤 Profile Screen (with Donation History)
 class ProfileScreen extends StatelessWidget {
   final List<String> donationHistory = [
@@ -173,6 +226,9 @@ class ProfileScreen extends StatelessWidget {
                     .map((donation) => ListTile(
                           leading: Icon(Icons.history, color: Colors.orange),
                           title: Text(donation),
+                          onTap: () {
+                            // Handle donation history item click
+                          },
                         ))
                     .toList(),
               ),
