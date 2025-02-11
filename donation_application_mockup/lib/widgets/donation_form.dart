@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DonationForm extends StatefulWidget {
   final Function(String, double) onSubmit;
 
-  DonationForm({required this.onSubmit});
+  const DonationForm({super.key, required this.onSubmit});
 
   @override
   _DonationFormState createState() => _DonationFormState();
@@ -17,19 +17,19 @@ class _DonationFormState extends State<DonationForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Make a Donation'),
+      title: const Text('Make a Donation'),
       content: Form(
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFormField(
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
               onChanged: (value) => _name = value,
               validator: (value) => value!.isEmpty ? 'Enter your name' : null,
             ),
             TextFormField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: const InputDecoration(labelText: 'Amount'),
               keyboardType: TextInputType.number,
               onChanged: (value) => _amount = double.tryParse(value) ?? 0,
               validator: (value) => (double.tryParse(value!) ?? 0) > 0
@@ -42,7 +42,7 @@ class _DonationFormState extends State<DonationForm> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
         ),
         ElevatedButton(
           onPressed: () {
@@ -50,7 +50,7 @@ class _DonationFormState extends State<DonationForm> {
               widget.onSubmit(_name, _amount);
             }
           },
-          child: Text('Donate'),
+          child: const Text('Donate'),
         ),
       ],
     );

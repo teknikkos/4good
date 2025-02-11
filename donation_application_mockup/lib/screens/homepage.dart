@@ -4,7 +4,7 @@ import '../widgets/donation_form.dart';
 class HomePage extends StatefulWidget {
   final List<String> selectedCauses;
 
-  HomePage({required this.selectedCauses});
+  const HomePage({super.key, required this.selectedCauses});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -45,10 +45,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Home Page'),
+        title: const Text('Home Page'),
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: const Icon(Icons.menu),
           onPressed: () {
             Scaffold.of(context).openDrawer();
           },
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.blue,
               ),
@@ -71,8 +72,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -81,8 +82,8 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.search),
-              title: Text('Search'),
+              leading: const Icon(Icons.search),
+              title: const Text('Search'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -91,8 +92,8 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Profile'),
+              leading: const Icon(Icons.person),
+              title: const Text('Profile'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
@@ -100,18 +101,18 @@ class _HomePageState extends State<HomePage> {
                 });
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.notifications),
-              title: Text('Notifications'),
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
               onTap: () {
                 Navigator.pop(context);
                 // Navigate to Notifications page
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
                 // Navigate to Settings page
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Colors.green, // Active tab color
         unselectedItemColor: Colors.grey, // Inactive tab color
         showUnselectedLabels: true, // Ensures labels show for all tabs
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
@@ -139,21 +140,21 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSearchScreen() {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Organizations'),
+        title: const Text('Search Organizations'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               onChanged: updateSearchQuery,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search',
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Wrap(
               spacing: 8.0,
               children: widget.selectedCauses
@@ -165,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                       ))
                   .toList(),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: filteredOrganizations.length,
@@ -176,17 +177,17 @@ class _HomePageState extends State<HomePage> {
                       // TODO: Implement donation functionality
                     },
                     child: Card(
-                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Row(
                           children: [
-                            Icon(Icons.business, color: Colors.blue),
-                            SizedBox(width: 16.0),
+                            const Icon(Icons.business, color: Colors.blue),
+                            const SizedBox(width: 16.0),
                             Expanded(
                               child: Text(
                                 organization,
-                                style: TextStyle(fontSize: 18),
+                                style: const TextStyle(fontSize: 18),
                               ),
                             ),
                           ],
@@ -206,6 +207,8 @@ class _HomePageState extends State<HomePage> {
 
 // 🏠 Home Screen
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -222,18 +225,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home Page')),
+      appBar: AppBar(title: const Text('Home Page')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               'Welcome to Donation App!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 showDialog(
@@ -247,17 +250,17 @@ class _HomeScreenState extends State<HomeScreen> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 16.0),
-                textStyle: TextStyle(fontSize: 18),
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                textStyle: const TextStyle(fontSize: 18),
               ),
-              child: Text('Donate Now'),
+              child: const Text('Donate Now'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: donations
                     .map((donation) => ListTile(
-                          leading: Icon(Icons.favorite, color: Colors.red),
+                          leading: const Icon(Icons.favorite, color: Colors.red),
                           title: Text(donation),
                         ))
                     .toList(),
@@ -277,21 +280,23 @@ class ProfileScreen extends StatelessWidget {
     'You donated \$20 to Elderly Care Center',
   ];
 
+  ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Profile')),
+      appBar: AppBar(title: const Text('Profile')),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'User Profile',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Donation History',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
@@ -299,7 +304,7 @@ class ProfileScreen extends StatelessWidget {
               child: ListView(
                 children: donationHistory
                     .map((donation) => ListTile(
-                          leading: Icon(Icons.history, color: Colors.orange),
+                          leading: const Icon(Icons.history, color: Colors.orange),
                           title: Text(donation),
                           onTap: () {
                             // Handle donation history item click

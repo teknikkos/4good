@@ -4,22 +4,24 @@ import 'screens/landing_page.dart'; // Import the landing page
 import 'screens/setup_page.dart'; // Import the setup page
 
 void main() {
-  runApp(DonationApp());
+  runApp(const DonationApp());
 }
 
 class DonationApp extends StatelessWidget {
+  const DonationApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '4Good',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => LandingPage(), // Set LandingPage as the initial route
-        '/setup': (context) => SetupPage(), // Define the SetupPage route
-        '/home': (context) => HomePage(selectedCauses: []), // Define the HomePage route with an empty list as default
+        '/': (context) => const LandingPage(), // Set LandingPage as the initial route
+        '/setup': (context) => const SetupPage(), // Define the SetupPage route
+        '/home': (context) => const HomePage(selectedCauses: []), // Define the HomePage route with an empty list as default
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/home') {
