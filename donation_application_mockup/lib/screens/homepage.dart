@@ -45,7 +45,82 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _selectedIndex == 0 ? HomeScreen() : _buildSearchScreen(),
+      appBar: AppBar(
+        title: Text('Home Page'),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  _selectedIndex = 0;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.search),
+              title: Text('Search'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  _selectedIndex = 1;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Profile'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  _selectedIndex = 2;
+                });
+              },
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.notifications),
+              title: Text('Notifications'),
+              onTap: () {
+                Navigator.pop(context);
+                // Navigate to Notifications page
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+                // Navigate to Settings page
+              },
+            ),
+          ],
+        ),
+      ),
+      body: _selectedIndex == 0 ? HomeScreen() : _selectedIndex == 1 ? _buildSearchScreen() : ProfileScreen(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -92,13 +167,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 1,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 4, // Adjust the aspect ratio for rectangular shape
-                ),
+              child: ListView.builder(
                 itemCount: filteredOrganizations.length,
                 itemBuilder: (context, index) {
                   final organization = filteredOrganizations[index];
@@ -107,14 +176,20 @@ class _HomePageState extends State<HomePage> {
                       // TODO: Implement donation functionality
                     },
                     child: Card(
-                      color: Colors.white,
-                      child: Center(
-                        child: Text(
-                          organization,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      margin: EdgeInsets.symmetric(vertical: 8.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.business, color: Colors.blue),
+                            SizedBox(width: 16.0),
+                            Expanded(
+                              child: Text(
+                                organization,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
