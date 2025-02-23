@@ -22,6 +22,27 @@ class _HomePageState extends State<HomePage> {
     'Unicef Philippines',
   ];
 
+  final List<Map<String, String>> posts = [
+    {
+      'username': 'user1',
+      'avatar': 'assets/images/avatar1.png',
+      'image': '../../assets/images/post1.png',
+      'caption': 'Helping the community!',
+    },
+    {
+      'username': 'user2',
+      'avatar': 'assets/images/avatar2.png',
+      'image': '../../assets/images/post2.png',
+      'caption': 'Supporting animal shelters!',
+    },
+    {
+      'username': 'user3',
+      'avatar': 'assets/images/avatar3.png',
+      'image': '../../assets/images/post3.png',
+      'caption': 'Environmental cleanup drive!',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -140,7 +161,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: _selectedIndex == 0 ? HomeScreen() : _selectedIndex == 1 ? _buildSearchScreen() : ProfileScreen(),
+      body: _selectedIndex == 0 ? _buildHomeScreen() : _selectedIndex == 1 ? _buildSearchScreen() : ProfileScreen(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.black,
@@ -169,6 +190,34 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildHomeScreen() {
+    return ListView.builder(
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        final post = posts[index];
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundImage: AssetImage(post['avatar']!),
+                ),
+                title: Text(post['username']!),
+              ),
+              Image.asset(post['image']!),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(post['caption']!),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
